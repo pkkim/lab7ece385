@@ -307,7 +307,8 @@ endtask
         
         //remember AXI addresses are BYTE addresses!
   // Command 1: Black and Blue
-repeat (4) @(posedge aclk) axi_write_palette(32'h2000, 12'h000 /* Black */, 12'h00A /* Blue */);
+// Write Blue and Green to the palette
+repeat (4) @(posedge aclk) axi_write_palette(32'h2000, 12'h00F /* Blue */, 12'h00F /* Green */);
 
 // Command 2: Green and Cyan
 repeat (4) @(posedge aclk) axi_write_palette(32'h2004, 12'h0A0 /* Green */, 12'h0AA /* Cyan */);
@@ -346,12 +347,45 @@ repeat (4) @(posedge aclk) axi_write_palette(32'h201C, 12'hFF5 /* Yellow */, 12'
        /// Test Writing and Reading VRAM Entries //
        ////////////////////////////////////////////
 
-       for(i= 'd00;i<600;i++)begin 
-            repeat(4)@(posedge aclk);
-            axi_write_vram(4*i,
-                /*Character*/ i+65 /*ASCII A*/, i % 'd16 /*FGD_IDX*/, (i+8) % 'd16 /*BKG_IDX*/, 'b00,
-                /*Character*/ i+97 /*ASCII a*/, (i+8) % 'd16 /*FGD_IDX*/, i % 'd16 /*BKG_IDX*/, 'b01);
-       end
+       // Write "ansht2" in blue (foreground index = 1)
+axi_write_vram(12'h000, /* ASCII 'a' */ 7'h61, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd1, /* IV */ 1'b1,
+                       /* ASCII 'n' */ 7'h6E, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd1, /* IV */ 1'b1);
+
+axi_write_vram(12'h004, /* ASCII 's' */ 7'h73, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd1, /* IV */ 1'b1,
+                       /* ASCII 'h' */ 7'h68, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd1, /* IV */ 1'b1);
+
+axi_write_vram(12'h008, /* ASCII 't' */ 7'h74, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd1, /* IV */ 1'b1,
+                       /* ASCII '2' */ 7'h32, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd1, /* IV */ 1'b1);
+                       
+
+               
+// Write "completed" in red (foreground index = 3)
+axi_write_vram(12'h012, /* ASCII 'c' */ 7'h63, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd0, /* IV */ 1'b1,
+                       /* ASCII 'o' */ 7'h6F, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd0, /* IV */ 1'b1);
+
+axi_write_vram(12'h016, /* ASCII 'm' */ 7'h6D, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd0, /* IV */ 1'b1,
+                       /* ASCII 'p' */ 7'h70, /* FGD_IDX */ 4'd3, /* BKG_IDX */ 4'd0, /* IV */ 1'b1);
+
+axi_write_vram(12'h01A, /* ASCII 'l' */ 7'h6C ,/*FGD_IDX*/4'd3 ,/*BKG*/4'd0 ,/*IV*/'b1,
+                        /*ASCII 'e'*/7'h65 ,/*FGD*/4'd3 ,/*BKG*/'b0 ,/*IV*/'b1);
+
+axi_write_vram(12'h01F ,/*ASCII 't'*/7'h74 ,/*FGD*/4'd3 ,/*BKG*/0 ,/*IV*/'b1,
+                        /*ASCII 'e'*/7'h65 ,/*FGD*/4'd3 ,/*BKG*/0 ,/*IV*/'b1);
+
+axi_write_vram(12'h023 ,/*ASCII 'd'*/7'h64 ,/*FGD*/4'd3 ,/*BKG*/0 ,/*IV*/'b1,
+                        /*ASCII null (end)*/7'h00 ,/*FGD*/4'd3 ,/*BKG*/0 ,/*IV*/'b1);
+
+// Write "ECE 385!" in green (foreground index = 2)
+axi_write_vram(12'h027, /* ASCII 'E' */ 7'h45, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1,
+                       /* ASCII 'C' */ 7'h43, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1);
+
+axi_write_vram(12'h02B, /* ASCII 'E' */ 7'h45, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1,
+                       /* ASCII '3' */ 7'h33, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1);
+
+axi_write_vram(12'h02F, /* ASCII '8' */ 7'h38, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1,
+                       /* ASCII '5'*/7'h35 ,/*FGD_IDX*/4'd2 ,/*BKG*/4'd0 ,/*IV*/'b01);
+
+ axi_write_vram(12'h03C, /* ASCII '!' */ 7'h21, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1, /* ASCII '!' */ 7'h00, /* FGD_IDX */ 4'd2, /* BKG_IDX */ 4'd0, /* IV */ 1'b1);
     
        ////////////////////////////////////////
        /// Test Reading Back VRAM Entries   ///
