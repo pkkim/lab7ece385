@@ -1,0 +1,11 @@
+Vivado Simulator v2022.2
+Copyright 1986-1999, 2001-2022 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2022.2/bin/unwrapped/win64.o/xelab.exe hdmi_text_controller_v1_0 
+Multi-threading is on. Using 10 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+ERROR: [VRFC 10-2063] Module <hdmi_text_controller_v1_0_AXI> not found while processing module instance <hdmi_text_controller_v1_0_AXI_inst> [C:/Users/atuls/ip_repo/hdmi_text_controller_1_0/src/hdmi_text_controller_v1_0.sv:78]
+ERROR: [VRFC 10-2063] Module <clk_wiz_0> not found while processing module instance <clk_wiz> [C:/Users/atuls/ip_repo/hdmi_text_controller_1_0/src/hdmi_text_controller_v1_0.sv:154]
+ERROR: [VRFC 10-2063] Module <vga_controller> not found while processing module instance <vga> [C:/Users/atuls/ip_repo/hdmi_text_controller_1_0/src/hdmi_text_controller_v1_0.sv:163]
+ERROR: [VRFC 10-2063] Module <hdmi_tx_0> not found while processing module instance <vga_to_hdmi> [C:/Users/atuls/ip_repo/hdmi_text_controller_1_0/src/hdmi_text_controller_v1_0.sv:174]
+ERROR: [XSIM 43-3322] Static elaboration of top level Verilog design unit(s) in library work failed.
