@@ -1,0 +1,5 @@
+- name: test_default
+  rule: raw_bash
+  rule_args:
+    cmds:
+      - "./run.sh"
