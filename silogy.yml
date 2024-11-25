@@ -1,0 +1,4 @@
+version: 1
+test_lists:
+  - name: default_tests
+    path: ./default_tests.otl.yaml
